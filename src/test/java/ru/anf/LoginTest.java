@@ -31,25 +31,28 @@ public class LoginTest {
     }
 
     @Test
-    public void loginTest() {
+    public void loginTest() throws InterruptedException {
         //значение login/password берутся из файла настроек по аналогии с chromedriver
 //и loginpage
 //вводим логин
+        loginPage.goToOldVersion();
         loginPage.inputLogin(ConfProperties.getProperty("login"));
-        //нажимаем кнопку входа
-        loginPage.clickLoginBtn();
         //вводим пароль
         loginPage.inputPasswd(ConfProperties.getProperty("password"));
+
+        loginPage.clickCaptcha();
+        Thread.sleep(10000);
+
         //нажимаем кнопку входа
         loginPage.clickLoginBtn();
+
         //получаем отображаемый логин
         String user = profilePage.getUserName();
         //и сравниваем его с логином из файла настроек
-        Assert.assertEquals(ConfProperties.getProperty("login"), user); }
+        Assert.assertEquals("Анастасия", user); }
 
     @AfterClass
     public static void tearDown() {
-        profilePage.entryMenu();
         profilePage.userLogout();
         driver.quit(); }
 }
