@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
+
+// тест с изменением города
 @RunWith(value = Parameterized.class)
 public class CityTest {
     private String city;
@@ -22,13 +24,14 @@ public class CityTest {
         this.city = city;
     }
 
+
     @Parameterized.Parameters
     public static Collection<Object[]> GetParams()
     {
         return Arrays.asList(new Object[][]{
-                {"Казань"},
-                {"Минеральные Воды"},
-                {"Абакан"}
+                {"Анапа"},
+                {"Архангельск"},
+                {"Брянск"}
         });
     }
 
