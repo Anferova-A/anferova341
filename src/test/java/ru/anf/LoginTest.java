@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 public class LoginTest {
 
     public static WebDriver driver;
-    public static LoginPage loginPage;
     public static ProfilePage profilePage;
     /**
      * осуществление первоначальной настройки
@@ -20,7 +19,6 @@ public class LoginTest {
         System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
         //создание экземпляра драйвера
         driver = new ChromeDriver();
-        loginPage = new LoginPage(driver);
         profilePage = new ProfilePage(driver);
         //окно разворачивается на полный экран
         driver.manage().window().maximize();
@@ -35,24 +33,17 @@ public class LoginTest {
         //значение login/password берутся из файла настроек по аналогии с chromedriver
 //и loginpage
 //вводим логин
-        loginPage.goToOldVersion();
-        loginPage.inputLogin(ConfProperties.getProperty("login"));
-        //вводим пароль
-        loginPage.inputPasswd(ConfProperties.getProperty("password"));
+        profilePage.clickFirstLoginBtn();
+        profilePage.inputLogin(ConfProperties.getProperty("login"));
+        profilePage.inputPasswd(ConfProperties.getProperty("password"));
 
-        loginPage.clickCaptcha();
         Thread.sleep(10000);
-
-        //нажимаем кнопку входа
-        loginPage.clickLoginBtn();
-
-        //получаем отображаемый логин
+        profilePage.clickSecondLoginBtn();
         String user = profilePage.getUserName();
-        //и сравниваем его с логином из файла настроек
-        Assert.assertEquals("Анастасия", user); }
+        Assert.assertEquals(ConfProperties.getProperty("name"), user); }
 
     @AfterClass
     public static void tearDown() {
-        profilePage.userLogout();
+        profilePage.logout();
         driver.quit(); }
 }
